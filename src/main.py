@@ -1,11 +1,12 @@
 import sys
 import os
 import winsound
+import ctypes
 
 from MyClass.recorde import recorder
 
 from PySide6.QtWidgets import QMainWindow, QApplication
-from PySide6.QtGui import QCloseEvent
+from PySide6.QtGui import QCloseEvent, QPixmap
 from ui.main_form import Ui_MainWindow
 
 from threading import Thread
@@ -23,6 +24,8 @@ class Mainwindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super(Mainwindow, self).__init__()
         self.setupUi(self)
+        myappid = 'ddat_recorder' # arbitrary string
+        ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
         self.recorder = recorder()
         self.recorde_flag = False
         self.btn_recorde.clicked.connect(self.recorde_handler)
@@ -60,5 +63,8 @@ class Mainwindow(QMainWindow, Ui_MainWindow):
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     window = Mainwindow()
+    ico = resource_path("img/ddat_recorde.ico")
+    ico_pixmap = QPixmap(ico)
+    app.setWindowIcon(ico_pixmap)
     window.show()
     app.exec()
