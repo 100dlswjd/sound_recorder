@@ -1,3 +1,5 @@
+import os
+import sys
 
 class recorder:
     import pyaudio
@@ -19,8 +21,9 @@ class recorder:
                         input=True,
                         frames_per_buffer=self.CHUNK)
         self.frames = []
-
+        
     def recorde_start(self):
+        self.recorde_stop_flag = False
         self.stream = self.p.open(input_device_index=self.MIC_DEVICE_ID,
                         format=self.FORMAT,
                         channels=self.CHANNELS,
@@ -31,13 +34,12 @@ class recorder:
         while self.recorde_stop_flag == False:
             data = self.stream.read(self.CHUNK)
             self.frames.append(data)
-            print("저장중임")
      
     def recorde_stop(self):
         self.recorde_stop_flag = True
-        self.stream.stop_stream()
-        self.stream.close()
-        self.p.terminate()
+        #self.stream.stop_stream()
+        #self.stream.close()
+        #self.p.terminate()
 
     # 녹음 데이터를 WAV 파일로 저장하기
     def save_wav(self, file_name = "output.wav"):
