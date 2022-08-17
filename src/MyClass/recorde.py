@@ -37,9 +37,6 @@ class recorder:
      
     def recorde_stop(self):
         self.recorde_stop_flag = True
-        #self.stream.stop_stream()
-        #self.stream.close()
-        #self.p.terminate()
 
     # 녹음 데이터를 WAV 파일로 저장하기
     def save_wav(self, file_name = "output.wav"):
@@ -51,4 +48,8 @@ class recorder:
     
         if isinstance(file_name, str):
             wf.close()
-        
+    
+    def __del__(self):
+        self.stream.stop_stream()
+        self.stream.close()
+        self.p.terminate()
